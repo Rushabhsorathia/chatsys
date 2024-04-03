@@ -1,3 +1,4 @@
+
 ## Chatsys Laravel Package
 
 Chatsys Laravel Package is the top choice for integrating a full-fledged real-time chat system into your Laravel application. With just one command, you can enhance your new or existing Laravel project with powerful chatting capabilities.
@@ -16,7 +17,24 @@ Chatsys Laravel Package is the top choice for integrating a full-fledged real-ti
 - User details panel for managing shared photos and deleting conversations.
 - Responsive design optimized for all devices.
 - User settings for customizing profile photo, enabling dark mode, and adjusting chat colors, all with a simple and elegant user interface.
+## Installation
 
+To install the Chatsys Laravel Package, use Composer:
+
+```
+composer require rushabhsorathia/chatsys
+```
+Then, run the following command to install and migrate the necessary tables:
+```
+php artisan chatsys:install
+php artisan migrate`
+```
+## Configuration
+Defult route
+```
+env('CHATSYS_ROUTES_PREFIX', 'Chatsys')
+env('CHATSYS_ROUTES_MIDDLEWARE', ['web','auth'])
+```
 
 ## Author
 
