@@ -17,9 +17,6 @@ Chatsys Laravel Package is the top choice for integrating a full-fledged real-ti
 - Responsive design optimized for all devices.
 - User settings for customizing profile photo, enabling dark mode, and adjusting chat colors, all with a simple and elegant user interface.
 
-## Change Log
-
-For details on recent updates and changes, please refer to the [CHANGELOG.md](https://github.com/munafio/chatify/blob/master/CHANGELOG.md).
 
 ## Author
 
