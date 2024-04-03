@@ -31,15 +31,15 @@ const setCurrentChannelId = (channel_id) => $("meta[name=channel_id]").attr("con
  * Pusher initialization
  *-------------------------------------------------------------
  */
-Pusher.logToConsole = chatify.pusher.debug;
-const pusher = new Pusher(chatify.pusher.key, {
-    encrypted: chatify.pusher.options.encrypted,
-    cluster: chatify.pusher.options.cluster,
-    wsHost: chatify.pusher.options.host,
-    wsPort: chatify.pusher.options.port,
-    wssPort: chatify.pusher.options.port,
-    forceTLS: chatify.pusher.options.useTLS,
-    authEndpoint: chatify.pusherAuthEndpoint,
+Pusher.logToConsole = Chatsys.pusher.debug;
+const pusher = new Pusher(Chatsys.pusher.key, {
+    encrypted: Chatsys.pusher.options.encrypted,
+    cluster: Chatsys.pusher.options.cluster,
+    wsHost: Chatsys.pusher.options.host,
+    wsPort: Chatsys.pusher.options.port,
+    wssPort: Chatsys.pusher.options.port,
+    forceTLS: Chatsys.pusher.options.useTLS,
+    authEndpoint: Chatsys.pusherAuthEndpoint,
     auth: {
         headers: {
             "X-CSRF-TOKEN": csrfToken,
@@ -629,7 +629,7 @@ function cancelUpdatingAvatar() {
  */
 
 // subscribe to the channel
-const channelName = "private-chatify";
+const channelName = "private-Chatsys";
 var clientSendChannel;
 let subscribedChannels = [];
 
@@ -1867,7 +1867,7 @@ $(document).ready(function () {
         const { name: fileName, size: fileSize } = file;
         const fileExtension = fileName.split(".").pop();
         if (
-            !chatify.allAllowedExtensions.includes(
+            !Chatsys.allAllowedExtensions.includes(
                 fileExtension.toString().toLowerCase()
             )
         ) {
@@ -1876,7 +1876,7 @@ $(document).ready(function () {
             return false;
         }
         // Validate file size.
-        if (fileSize > chatify.maxUploadSize) {
+        if (fileSize > Chatsys.maxUploadSize) {
             alert("File is too large!");
             return false;
         }
@@ -2203,9 +2203,9 @@ emojiPicker.on("emoji", (emoji) => {
  *-------------------------------------------------------------
  */
 function playNotificationSound(soundName, condition = false) {
-    if ((document.hidden || condition) && chatify.sounds.enabled) {
+    if ((document.hidden || condition) && Chatsys.sounds.enabled) {
         const sound = new Audio(
-            `/${chatify.sounds.public_path}/${chatify.sounds[soundName]}`
+            `/${Chatsys.sounds.public_path}/${Chatsys.sounds[soundName]}`
         );
         sound.play();
     }

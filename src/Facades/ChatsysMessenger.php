@@ -1,14 +1,14 @@
 <?php
 
-namespace Chatify\Facades;
+namespace Chatsys\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class ChatifyMessenger extends Facade 
+class ChatsysMessenger extends Facade 
 {
 
     protected static function getFacadeAccessor() 
     { 
-       return 'ChatifyMessenger'; 
+       return 'ChatsysMessenger'; 
     }
 }

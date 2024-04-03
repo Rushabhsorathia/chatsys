@@ -1,6 +1,6 @@
 <?php
 
-namespace Chatify\Console;
+namespace Chatsys\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -13,14 +13,14 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'chatify:install';
+    protected $signature = 'Chatsys:install';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Install Chatify package';
+    protected $description = 'Install Chatsys package';
 
     /**
      * Check Laravel version.
@@ -38,7 +38,7 @@ class InstallCommand extends Command
     {
         $this->isV8 = explode('.',app()->version())[0] >= 8;
 
-        $this->info('Installing Chatify...');
+        $this->info('Installing Chatsys...');
 
         $this->line('----------');
         $this->line('Configurations...');
@@ -48,16 +48,16 @@ class InstallCommand extends Command
         $this->modifyModelsPath('/../Http/Controllers/Api/MessagesController.php','User');
         $this->modifyModelsPath('/../Http/Controllers/Api/MessagesController.php','ChFavorite');
         $this->modifyModelsPath('/../Http/Controllers/Api/MessagesController.php','ChMessage');
-        $this->modifyModelsPath('/../ChatifyMessenger.php','ChFavorite');
-        $this->modifyModelsPath('/../ChatifyMessenger.php','ChMessage');
+        $this->modifyModelsPath('/../ChatsysMessenger.php','ChFavorite');
+        $this->modifyModelsPath('/../ChatsysMessenger.php','ChMessage');
         $this->modifyModelsPath('/../Models/ChFavorite.php');
         $this->modifyModelsPath('/../Models/ChMessage.php');
         $this->info('[✓] done');
 
         $assetsToBePublished = [
-            'config' => config_path('chatify.php'),
-            'views' => resource_path('views/vendor/Chatify'),
-            'assets' => public_path('css/chatify'),
+            'config' => config_path('Chatsys.php'),
+            'views' => resource_path('views/vendor/Chatsys'),
+            'assets' => public_path('css/Chatsys'),
             'models' => app_path(($this->isV8 ? 'Models/' : '').'ChMessage.php'),
             'migrations' => database_path('migrations/2019_09_22_192348_create_messages_table.php'),
         ];
@@ -73,7 +73,7 @@ class InstallCommand extends Command
         $this->info('[✓] Storage linked.');
 
         $this->line('----------');
-        $this->info('[✓] Chatify installed successfully');
+        $this->info('[✓] Chatsys installed successfully');
     }
 
     /**
@@ -143,7 +143,7 @@ class InstallCommand extends Command
     private function publish($tag, $forcePublish = false)
     {
         $this->call('vendor:publish', [
-            '--tag' => 'chatify-'.$tag,
+            '--tag' => 'Chatsys-'.$tag,
             '--force' => $forcePublish,
         ]);
     }

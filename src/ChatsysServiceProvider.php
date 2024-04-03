@@ -1,13 +1,13 @@
 <?php
 
-namespace Chatify;
+namespace Chatsys;
 
-use Chatify\Console\InstallCommand;
-use Chatify\Console\PublishCommand;
+use Chatsys\Console\InstallCommand;
+use Chatsys\Console\PublishCommand;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
-class ChatifyServiceProvider extends ServiceProvider
+class ChatsysServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -16,8 +16,8 @@ class ChatifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        app()->bind('ChatifyMessenger', function () {
-            return new \Chatify\ChatifyMessenger;
+        app()->bind('ChatsysMessenger', function () {
+            return new \Chatsys\ChatsysMessenger;
         });
     }
 
@@ -29,7 +29,7 @@ class ChatifyServiceProvider extends ServiceProvider
     public function boot()
     {
         // Load Views and Routes
-        $this->loadViewsFrom(__DIR__ . '/views', 'Chatify');
+        $this->loadViewsFrom(__DIR__ . '/views', 'Chatsys');
         $this->loadRoutes();
 
         if ($this->app->runningInConsole()) {
@@ -49,12 +49,12 @@ class ChatifyServiceProvider extends ServiceProvider
     protected function setPublishes()
     {
         // Load user's avatar folder from package's config
-        $userAvatarFolder = json_decode(json_encode(include(__DIR__.'/config/chatify.php')))->user_avatar->folder;
+        $userAvatarFolder = json_decode(json_encode(include(__DIR__.'/config/Chatsys.php')))->user_avatar->folder;
 
         // Config
         $this->publishes([
-            __DIR__ . '/config/chatify.php' => config_path('chatify.php')
-        ], 'chatify-config');
+            __DIR__ . '/config/Chatsys.php' => config_path('Chatsys.php')
+        ], 'Chatsys-config');
 
         // Migrations
         $this->publishes([
@@ -63,39 +63,39 @@ class ChatifyServiceProvider extends ServiceProvider
             __DIR__ . '/database/migrations/2022_01_10_99999_add_channel_id_to_users.php' => database_path('migrations/' . date('Y_m_d') . '_000000_add_channel_id_to_users.php'),
             __DIR__ . '/database/migrations/2022_01_10_99999_add_dark_mode_to_users.php' => database_path('migrations/' . date('Y_m_d') . '_000000_add_dark_mode_to_users.php'),
             __DIR__ . '/database/migrations/2022_01_10_99999_add_messenger_color_to_users.php' => database_path('migrations/' . date('Y_m_d') . '_000000_add_messenger_color_to_users.php'),
-            __DIR__ . '/database/migrations/2022_01_10_99999_create_chatify_channels_table.php' => database_path('migrations/' . date('Y_m_d') . '_000000_create_chatify_channels_table.php'),
-            __DIR__ . '/database/migrations/2022_01_10_99999_create_chatify_favorites_table.php' => database_path('migrations/' . date('Y_m_d') . '_000000_create_chatify_favorites_table.php'),
-            __DIR__ . '/database/migrations/2022_01_10_99999_create_chatify_messages_table.php' => database_path('migrations/' . date('Y_m_d') . '_000000_create_chatify_messages_table.php'),
-            __DIR__ . '/database/migrations/2022_01_10_99999_create_chatify_channel_user_table.php' => database_path('migrations/' . date('Y_m_d') . '_000001_create_chatify_channel_user_table.php'),
-        ], 'chatify-migrations');
+            __DIR__ . '/database/migrations/2022_01_10_99999_create_Chatsys_channels_table.php' => database_path('migrations/' . date('Y_m_d') . '_000000_create_Chatsys_channels_table.php'),
+            __DIR__ . '/database/migrations/2022_01_10_99999_create_Chatsys_favorites_table.php' => database_path('migrations/' . date('Y_m_d') . '_000000_create_Chatsys_favorites_table.php'),
+            __DIR__ . '/database/migrations/2022_01_10_99999_create_Chatsys_messages_table.php' => database_path('migrations/' . date('Y_m_d') . '_000000_create_Chatsys_messages_table.php'),
+            __DIR__ . '/database/migrations/2022_01_10_99999_create_Chatsys_channel_user_table.php' => database_path('migrations/' . date('Y_m_d') . '_000001_create_Chatsys_channel_user_table.php'),
+        ], 'Chatsys-migrations');
 
         // Models
         $isV8 = explode('.', app()->version())[0] >= 8;
         $this->publishes([
             __DIR__ . '/Models' => app_path($isV8 ? 'Models' : '')
-        ], 'chatify-models');
+        ], 'Chatsys-models');
 
         // Controllers
         $this->publishes([
-            __DIR__ . '/Http/Controllers' => app_path('Http/Controllers/vendor/Chatify')
-        ], 'chatify-controllers');
+            __DIR__ . '/Http/Controllers' => app_path('Http/Controllers/vendor/Chatsys')
+        ], 'Chatsys-controllers');
 
         // Views
         $this->publishes([
-            __DIR__ . '/views' => resource_path('views/vendor/Chatify')
-        ], 'chatify-views');
+            __DIR__ . '/views' => resource_path('views/vendor/Chatsys')
+        ], 'Chatsys-views');
 
         // Assets
         $this->publishes([
             // CSS
-            __DIR__ . '/assets/css' => public_path('css/chatify'),
+            __DIR__ . '/assets/css' => public_path('css/Chatsys'),
             // JavaScript
-            __DIR__ . '/assets/js' => public_path('js/chatify'),
+            __DIR__ . '/assets/js' => public_path('js/Chatsys'),
             // Images
             __DIR__ . '/assets/imgs' => storage_path('app/public/' . $userAvatarFolder),
              // CSS
-             __DIR__ . '/assets/sounds' => public_path('sounds/chatify'),
-        ], 'chatify-assets');
+             __DIR__ . '/assets/sounds' => public_path('sounds/Chatsys'),
+        ], 'Chatsys-assets');
     }
 
     /**
@@ -121,9 +121,9 @@ class ChatifyServiceProvider extends ServiceProvider
     private function routesConfigurations()
     {
         return [
-            'prefix' => config('chatify.routes.prefix'),
-            'namespace' =>  config('chatify.routes.namespace'),
-            'middleware' => config('chatify.routes.middleware'),
+            'prefix' => config('Chatsys.routes.prefix'),
+            'namespace' =>  config('Chatsys.routes.namespace'),
+            'middleware' => config('Chatsys.routes.middleware'),
         ];
     }
     /**
@@ -134,9 +134,9 @@ class ChatifyServiceProvider extends ServiceProvider
     private function apiRoutesConfigurations()
     {
         return [
-            'prefix' => config('chatify.api_routes.prefix'),
-            'namespace' =>  config('chatify.api_routes.namespace'),
-            'middleware' => config('chatify.api_routes.middleware'),
+            'prefix' => config('Chatsys.api_routes.prefix'),
+            'namespace' =>  config('Chatsys.api_routes.namespace'),
+            'middleware' => config('Chatsys.api_routes.middleware'),
         ];
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Chatify\Http\Controllers\Api;
+namespace Chatsys\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
 use App\Models\ChMessage as Message;
 use App\Models\ChFavorite as Favorite;
-use Chatify\Facades\ChatifyMessenger as Chatify;
+use Chatsys\Facades\ChatsysMessenger as Chatsys;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +27,7 @@ class MessagesController extends Controller
      */
     public function pusherAuth(Request $request)
     {
-        return Chatify::pusherAuth(
+        return Chatsys::pusherAuth(
             $request->user(),
             Auth::user(),
             $request['channel_name'],
@@ -45,13 +45,13 @@ class MessagesController extends Controller
     {
         return auth()->user();
         // Favorite
-        $favorite = Chatify::inFavorite($request['id']);
+        $favorite = Chatsys::inFavorite($request['id']);
 
         // User data
         if ($request['type'] == 'user') {
             $fetch = User::where('id', $request['id'])->first();
             if($fetch){
-                $userAvatar = Chatify::getUserWithAvatar($fetch)->avatar;
+                $userAvatar = Chatsys::getUserWithAvatar($fetch)->avatar;
             }
         }
 
@@ -72,11 +72,11 @@ class MessagesController extends Controller
      */
     public function download($fileName)
     {
-        $path = config('chatify.attachments.folder') . '/' . $fileName;
-        if (Chatify::storage()->exists($path)) {
+        $path = config('Chatsys.attachments.folder') . '/' . $fileName;
+        if (Chatsys::storage()->exists($path)) {
             return response()->json([
                 'file_name' => $fileName,
-                'download_path' => Chatify::storage()->url($path)
+                'download_path' => Chatsys::storage()->url($path)
             ], 200);
         } else {
             return response()->json([
@@ -104,19 +104,19 @@ class MessagesController extends Controller
         // if there is attachment [file]
         if ($request->hasFile('file')) {
             // allowed extensions
-            $allowed_images = Chatify::getAllowedImages();
-            $allowed_files  = Chatify::getAllowedFiles();
+            $allowed_images = Chatsys::getAllowedImages();
+            $allowed_files  = Chatsys::getAllowedFiles();
             $allowed        = array_merge($allowed_images, $allowed_files);
 
             $file = $request->file('file');
             // check file size
-            if ($file->getSize() < Chatify::getMaxUploadSize()) {
+            if ($file->getSize() < Chatsys::getMaxUploadSize()) {
                 if (in_array(strtolower($file->extension()), $allowed)) {
                     // get attachment name
                     $attachment_title = $file->getClientOriginalName();
                     // upload attachment and store the new name
                     $attachment = Str::uuid() . "." . $file->extension();
-                    $file->storeAs(config('chatify.attachments.folder'), $attachment, config('chatify.storage_disk_name'));
+                    $file->storeAs(config('Chatsys.attachments.folder'), $attachment, config('Chatsys.storage_disk_name'));
                 } else {
                     $error->status = 1;
                     $error->message = "File extension not allowed!";
@@ -129,7 +129,7 @@ class MessagesController extends Controller
 
         if (!$error->status) {
             // send to database
-            $message = Chatify::newMessage([
+            $message = Chatsys::newMessage([
                 'type' => $request['type'],
                 'from_id' => Auth::user()->id,
                 'to_id' => $request['id'],
@@ -141,11 +141,11 @@ class MessagesController extends Controller
             ]);
 
             // fetch message to send it with the response
-            $messageData = Chatify::parseMessage($message);
+            $messageData = Chatsys::parseMessage($message);
 
             // send to user using pusher
             if (Auth::user()->id != $request['id']) {
-                Chatify::push("private-chatify.".$request['id'], 'messaging', [
+                Chatsys::push("private-Chatsys.".$request['id'], 'messaging', [
                     'from_id' => Auth::user()->id,
                     'to_id' => $request['id'],
                     'message' => $messageData
@@ -170,7 +170,7 @@ class MessagesController extends Controller
      */
     public function fetch(Request $request)
     {
-        $query = Chatify::fetchMessagesQuery($request['id'])->latest();
+        $query = Chatsys::fetchMessagesQuery($request['id'])->latest();
         $messages = $query->paginate($request->per_page ?? $this->perPage);
         $totalMessages = $messages->total();
         $lastPage = $messages->lastPage();
@@ -192,7 +192,7 @@ class MessagesController extends Controller
     public function seen(Request $request)
     {
         // make as seen
-        $seen = Chatify::makeSeen($request['id']);
+        $seen = Chatsys::makeSeen($request['id']);
         // send the response
         return Response::json([
             'status' => $seen,
@@ -239,8 +239,8 @@ class MessagesController extends Controller
     {
         $userId = $request['user_id'];
         // check action [star/unstar]
-        $favoriteStatus = Chatify::inFavorite($userId) ? 0 : 1;
-        Chatify::makeInFavorite($userId, $favoriteStatus);
+        $favoriteStatus = Chatsys::inFavorite($userId) ? 0 : 1;
+        Chatsys::makeInFavorite($userId, $favoriteStatus);
 
         // send the response
         return Response::json([
@@ -280,7 +280,7 @@ class MessagesController extends Controller
                     ->paginate($request->per_page ?? $this->perPage);
 
         foreach ($records->items() as $index => $record) {
-            $records[$index] += Chatify::getUserWithAvatar($record);
+            $records[$index] += Chatsys::getUserWithAvatar($record);
         }
 
         return Response::json([
@@ -298,10 +298,10 @@ class MessagesController extends Controller
      */
     public function sharedPhotos(Request $request)
     {
-        $images = Chatify::getSharedPhotos($request['user_id']);
+        $images = Chatsys::getSharedPhotos($request['user_id']);
 
         foreach ($images as $image) {
-            $image = asset(config('chatify.attachments.folder') . $image);
+            $image = asset(config('Chatsys.attachments.folder') . $image);
         }
         // send the response
         return Response::json([
@@ -318,7 +318,7 @@ class MessagesController extends Controller
     public function deleteConversation(Request $request)
     {
         // delete
-        $delete = Chatify::deleteConversation($request['id']);
+        $delete = Chatsys::deleteConversation($request['id']);
 
         // send the response
         return Response::json([
@@ -347,23 +347,23 @@ class MessagesController extends Controller
         // if there is a [file]
         if ($request->hasFile('avatar')) {
             // allowed extensions
-            $allowed_images = Chatify::getAllowedImages();
+            $allowed_images = Chatsys::getAllowedImages();
 
             $file = $request->file('avatar');
             // check file size
-            if ($file->getSize() < Chatify::getMaxUploadSize()) {
+            if ($file->getSize() < Chatsys::getMaxUploadSize()) {
                 if (in_array(strtolower($file->extension()), $allowed_images)) {
                     // delete the older one
-                    if (Auth::user()->avatar != config('chatify.user_avatar.default')) {
-                        $path = Chatify::getUserAvatarUrl(Auth::user()->avatar);
-                        if (Chatify::storage()->exists($path)) {
-                            Chatify::storage()->delete($path);
+                    if (Auth::user()->avatar != config('Chatsys.user_avatar.default')) {
+                        $path = Chatsys::getUserAvatarUrl(Auth::user()->avatar);
+                        if (Chatsys::storage()->exists($path)) {
+                            Chatsys::storage()->delete($path);
                         }
                     }
                     // upload
                     $avatar = Str::uuid() . "." . $file->extension();
                     $update = User::where('id', Auth::user()->id)->update(['avatar' => $avatar]);
-                    $file->storeAs(config('chatify.user_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
+                    $file->storeAs(config('Chatsys.user_avatar.folder'), $avatar, config('Chatsys.storage_disk_name'));
                     $success = $update ? 1 : 0;
                 } else {
                     $msg = "File extension not allowed!";

@@ -9,13 +9,13 @@
                 </div>
                 <div class="app-modal-body">
                     {{-- channel avatar --}}
-                    <div class="avatar av-l upload-avatar-preview chatify-d-flex"
-                         style="background-image: url('{{ Chatify::getUserWithAvatar(Auth::user())->avatar }}');"
+                    <div class="avatar av-l upload-avatar-preview Chatsys-d-flex"
+                         style="background-image: url('{{ Chatsys::getUserWithAvatar(Auth::user())->avatar }}');"
                     ></div>
                     <p class="upload-avatar-details"></p>
                     <label class="app-btn a-btn-primary update" style="background-color:{{$messengerColor}}">
                         Upload New
-                        <input class="upload-avatar chatify-d-none" accept="image/*" name="avatar" type="file" />
+                        <input class="upload-avatar Chatsys-d-none" accept="image/*" name="avatar" type="file" />
                     </label>
                     {{-- End channel avatar --}}
 
@@ -113,13 +113,13 @@
                   {{-- <div class="app-modal-header">Update your profile settings</div> --}}
                   <div class="app-modal-body">
                       {{-- Udate profile avatar --}}
-                      <div class="avatar av-l upload-avatar-preview chatify-d-flex"
-                      style="background-image: url('{{ Chatify::getUserWithAvatar(Auth::user())->avatar }}');"
+                      <div class="avatar av-l upload-avatar-preview Chatsys-d-flex"
+                      style="background-image: url('{{ Chatsys::getUserWithAvatar(Auth::user())->avatar }}');"
                       ></div>
                       <p class="upload-avatar-details"></p>
                       <label class="app-btn a-btn-primary update" style="background-color:{{$messengerColor}}">
                           Upload New
-                          <input class="upload-avatar chatify-d-none" accept="image/*" name="avatar" type="file" />
+                          <input class="upload-avatar Chatsys-d-none" accept="image/*" name="avatar" type="file" />
                       </label>
                       {{-- Dark/Light Mode  --}}
                       <p class="divider"></p>
@@ -128,9 +128,9 @@
                          data-mode="{{ Auth::user()->dark_mode > 0 ? 1 : 0 }}"></span></p>
                       {{-- change messenger color  --}}
                       <p class="divider"></p>
-                      {{-- <p class="app-modal-header">Change {{ config('chatify.name') }} Color</p> --}}
+                      {{-- <p class="app-modal-header">Change {{ config('Chatsys.name') }} Color</p> --}}
                       <div class="update-messengerColor">
-                      @foreach (config('chatify.colors') as $color)
+                      @foreach (config('Chatsys.colors') as $color)
                         <span style="background-color: {{ $color}}" data-color="{{$color}}" class="color-btn"></span>
                         @if (($loop->index + 1) % 5 == 0)
                             <br/>

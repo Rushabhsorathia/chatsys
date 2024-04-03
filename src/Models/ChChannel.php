@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Chatify\Traits\UUID;
+use Chatsys\Traits\UUID;
 
 class ChChannel extends Model
 {

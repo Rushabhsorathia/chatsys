@@ -1,4 +1,4 @@
-@include('Chatify::layouts.headLinks')
+@include('Chatsys::layouts.headLinks')
 <div class="messenger">
     {{-- ----------------------Users/Groups lists side---------------------- --}}
     <div class="messenger-listView {{ !!$channel_id ? 'conversation-active' : '' }}">
@@ -33,7 +33,7 @@
                </div>
                {{-- Saved Messages --}}
                <p class="messenger-title"><span>Your Space</span></p>
-               {!! view('Chatify::layouts.listItem', ['get' => 'saved']) !!}
+               {!! view('Chatsys::layouts.listItem', ['get' => 'saved']) !!}
                {{-- Contact --}}
                <p class="messenger-title"><span>All Messages</span></p>
                <div class="listOfContacts" style="width: 100%;height: calc(100% - 272px);position: relative;"></div>
@@ -53,13 +53,13 @@
     <div class="messenger-messagingView">
         {{-- header title [conversation name] amd buttons --}}
         <div class="m-header m-header-messaging">
-            <nav class="chatify-d-flex chatify-justify-content-between chatify-align-items-center">
+            <nav class="Chatsys-d-flex Chatsys-justify-content-between Chatsys-align-items-center">
                 {{-- header back button, avatar and user name --}}
-                <div class="chatify-d-flex chatify-justify-content-between chatify-align-items-center">
+                <div class="Chatsys-d-flex Chatsys-justify-content-between Chatsys-align-items-center">
                     <a href="#" class="show-listView"><i class="fas fa-arrow-left"></i></a>
                     <div class="avatar av-s header-avatar" style="margin: 0px 10px; margin-top: -5px; margin-bottom: -5px;">
                     </div>
-                    <a href="#" class="user-name">{{ config('chatify.name') }}</a>
+                    <a href="#" class="user-name">{{ config('Chatsys.name') }}</a>
                 </div>
                 {{-- header buttons --}}
                 <nav class="m-header-right">
@@ -96,7 +96,7 @@
 
         </div>
         {{-- Send Message Form --}}
-        @include('Chatify::layouts.sendForm')
+        @include('Chatsys::layouts.sendForm')
     </div>
 
     {{-- ---------------------- Info side ---------------------- --}}
@@ -108,5 +108,5 @@
     </div>
 </div>
 
-@include('Chatify::layouts.modals')
-@include('Chatify::layouts.footerLinks')
+@include('Chatsys::layouts.modals')
+@include('Chatsys::layouts.footerLinks')

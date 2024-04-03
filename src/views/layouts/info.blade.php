@@ -6,14 +6,14 @@
     <a href="#"><i class="fas fa-times"></i></a>
 </nav>
 
-<div class="avatar avatar-channel av-l chatify-d-flex"></div>
-<p class="info-name">{{ config('chatify.name') }}</p>
+<div class="avatar avatar-channel av-l Chatsys-d-flex"></div>
+<p class="info-name">{{ config('Chatsys.name') }}</p>
 @if($isGroup)
     <div style="max-width: 250px; margin: auto">
         <h4 style="text-align: center; margin-bottom: 10px; margin-top: 30px; font-weight: normal; font-size: 14px">Users in this group</h4>
         <div class="app-scroll users-list">
             @foreach($channel->users as $user)
-                {!! view('Chatify::layouts.listItem', ['get' => 'user_search_item', 'user' => Chatify::getUserWithAvatar($user)])->render() !!}
+                {!! view('Chatsys::layouts.listItem', ['get' => 'user_search_item', 'user' => Chatsys::getUserWithAvatar($user)])->render() !!}
             @endforeach
         </div>
     </div>

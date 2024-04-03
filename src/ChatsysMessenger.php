@@ -1,6 +1,6 @@
 <?php
 
-namespace Chatify;
+namespace Chatsys;
 
 use App\Models\ChMessage as Message;
 use App\Models\ChFavorite as Favorite;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Pusher\Pusher;
 use Exception;
 
-class ChatifyMessenger
+class ChatsysMessenger
 {
     public $pusher;
 
@@ -24,16 +24,16 @@ class ChatifyMessenger
      */
     public function getMaxUploadSize()
     {
-        return config('chatify.attachments.max_upload_size') * 1048576;
+        return config('Chatsys.attachments.max_upload_size') * 1048576;
     }
 
     public function __construct()
     {
         $this->pusher = new Pusher(
-            config('chatify.pusher.key'),
-            config('chatify.pusher.secret'),
-            config('chatify.pusher.app_id'),
-            config('chatify.pusher.options'),
+            config('Chatsys.pusher.key'),
+            config('Chatsys.pusher.secret'),
+            config('Chatsys.pusher.app_id'),
+            config('Chatsys.pusher.options'),
         );
     }
     /**
@@ -44,7 +44,7 @@ class ChatifyMessenger
      */
     public function getAllowedImages()
     {
-        return config('chatify.attachments.allowed_images');
+        return config('Chatsys.attachments.allowed_images');
     }
 
     /**
@@ -55,7 +55,7 @@ class ChatifyMessenger
      */
     public function getAllowedFiles()
     {
-        return config('chatify.attachments.allowed_files');
+        return config('Chatsys.attachments.allowed_files');
     }
 
     /**
@@ -65,7 +65,7 @@ class ChatifyMessenger
      */
     public function getMessengerColors()
     {
-        return config('chatify.colors');
+        return config('Chatsys.colors');
     }
 
     /**
@@ -201,7 +201,7 @@ class ChatifyMessenger
         if($renderDefaultCard) {
             $data['isSender'] =  false;
         }
-        return view('Chatify::layouts.messageCard', $data)->render();
+        return view('Chatsys::layouts.messageCard', $data)->render();
     }
 
     /**
@@ -314,7 +314,7 @@ class ChatifyMessenger
 
             // check if this channel is a group
             if(isset($channel->owner_id)){
-                return view('Chatify::layouts.listItem', [
+                return view('Chatsys::layouts.listItem', [
                     'get' => 'contact-group',
                     'channel' => $this->getChannelWithAvatar($channel),
                     'lastMessage' => $lastMessage,
@@ -323,7 +323,7 @@ class ChatifyMessenger
             } else {
                 $user = $this->getUserInOneChannel($channel->id);
 
-                return view('Chatify::layouts.listItem', [
+                return view('Chatsys::layouts.listItem', [
                     'get' => 'contact-user',
                     'channel' => $channel,
                     'user' => $this->getUserWithAvatar($user),
@@ -344,9 +344,9 @@ class ChatifyMessenger
      */
     public function getUserWithAvatar($user)
     {
-        if ($user->avatar == 'avatar.png' && config('chatify.gravatar.enabled')) {
-            $imageSize = config('chatify.gravatar.image_size');
-            $imageset = config('chatify.gravatar.imageset');
+        if ($user->avatar == 'avatar.png' && config('Chatsys.gravatar.enabled')) {
+            $imageSize = config('Chatsys.gravatar.image_size');
+            $imageset = config('Chatsys.gravatar.imageset');
             $user->avatar = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($user->email))) . '?s=' . $imageSize . '&d=' . $imageset;
         } else {
             $user->avatar = self::getUserAvatarUrl($user->avatar);
@@ -362,9 +362,9 @@ class ChatifyMessenger
      */
     public function getChannelWithAvatar($channel)
     {
-        if ($channel->avatar == 'avatar.png' && config('chatify.gravatar.enabled')) {
-            $imageSize = config('chatify.gravatar.image_size');
-            $imageset = config('chatify.gravatar.imageset');
+        if ($channel->avatar == 'avatar.png' && config('Chatsys.gravatar.enabled')) {
+            $imageSize = config('Chatsys.gravatar.image_size');
+            $imageset = config('Chatsys.gravatar.imageset');
             $channel->avatar = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($channel->name))) . '?s=' . $imageSize . '&d=' . $imageset;
         } else {
             $channel->avatar = self::getChannelAvatarUrl($channel->avatar);
@@ -527,7 +527,7 @@ class ChatifyMessenger
             foreach ($this->fetchMessagesQuery($channel_id)->get() as $msg) {
                 // delete file attached if exist
                 if (isset($msg->attachment)) {
-                    $path = config('chatify.attachments.folder').'/'.json_decode($msg->attachment)->new_name;
+                    $path = config('Chatsys.attachments.folder').'/'.json_decode($msg->attachment)->new_name;
                     if (self::storage()->exists($path)) {
                         self::storage()->delete($path);
                     }
@@ -552,7 +552,7 @@ class ChatifyMessenger
         try {
             $msg = Message::where('from_id', auth()->id())->where('id', $id)->firstOrFail();
             if (isset($msg->attachment)) {
-                $path = config('chatify.attachments.folder') . '/' . json_decode($msg->attachment)->new_name;
+                $path = config('Chatsys.attachments.folder') . '/' . json_decode($msg->attachment)->new_name;
                 if (self::storage()->exists($path)) {
                     self::storage()->delete($path);
                 }
@@ -570,7 +570,7 @@ class ChatifyMessenger
      */
     public function storage()
     {
-        return Storage::disk(config('chatify.storage_disk_name'));
+        return Storage::disk(config('Chatsys.storage_disk_name'));
     }
 
     /**
@@ -581,7 +581,7 @@ class ChatifyMessenger
      */
     public function getUserAvatarUrl($user_avatar_name)
     {
-        return self::storage()->url(config('chatify.user_avatar.folder') . '/' . $user_avatar_name);
+        return self::storage()->url(config('Chatsys.user_avatar.folder') . '/' . $user_avatar_name);
     }
 
     /**
@@ -592,7 +592,7 @@ class ChatifyMessenger
      */
     public function getChannelAvatarUrl($channel_avatar_name)
     {
-        return self::storage()->url(config('chatify.channel_avatar.folder') . '/' . $channel_avatar_name);
+        return self::storage()->url(config('Chatsys.channel_avatar.folder') . '/' . $channel_avatar_name);
     }
 
     /**
@@ -603,6 +603,6 @@ class ChatifyMessenger
      */
     public function getAttachmentUrl($attachment_name)
     {
-        return self::storage()->url(config('chatify.attachments.folder') . '/' . $attachment_name);
+        return self::storage()->url(config('Chatsys.attachments.folder') . '/' . $attachment_name);
     }
 }

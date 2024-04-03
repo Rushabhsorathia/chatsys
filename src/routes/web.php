@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 /*
-* This is the main app route [Chatify Messenger]
+* This is the main app route [Chatsys Messenger]
 */
-Route::get('/', 'MessagesController@index')->name(config('chatify.routes.prefix'));
+Route::get('/', 'MessagesController@index')->name(config('Chatsys.routes.prefix'));
 
 /**
  *  Fetch info for specific id [user/group]
@@ -25,7 +25,7 @@ Route::post('/fetchMessages', 'MessagesController@fetch')->name('fetch.messages'
 /**
  * Download attachments route to create a downloadable links
  */
-Route::get('/download/{fileName}', 'MessagesController@download')->name(config('chatify.attachments.download_route_name'));
+Route::get('/download/{fileName}', 'MessagesController@download')->name(config('Chatsys.attachments.download_route_name'));
 
 /**
  * Authentication for pusher private channels

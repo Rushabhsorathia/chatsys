@@ -1,6 +1,6 @@
 <?php
 
-namespace Chatify\Traits;
+namespace Chatsys\Traits;
 
 use Illuminate\Support\Str;
 

@@ -1125,28 +1125,28 @@ div.loadingPlaceholder-date {
     overflow: hidden !important;
     text-overflow: ellipsis;
   }
-  .chatify-md-block {
+  .Chatsys-md-block {
     display: block;
   }
 }
 
-.chatify-d-flex {
+.Chatsys-d-flex {
   display: flex !important;
 }
 
-.chatify-d-none {
+.Chatsys-d-none {
   display: none !important;
 }
 
-.chatify-d-hidden {
+.Chatsys-d-hidden {
   visibility: hidden !important;
 }
 
-.chatify-justify-content-between {
+.Chatsys-justify-content-between {
   justify-content: space-between !important;
 }
 
-.chatify-align-items-center {
+.Chatsys-align-items-center {
   align-items: center !important;
 }
 

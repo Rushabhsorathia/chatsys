@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChatifyChannelsTable extends Migration
+class CreateChatsysMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateChatifyChannelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ch_channels', function (Blueprint $table) {
+        Schema::create('ch_messages', function (Blueprint $table) {
             $table->uuid('id')->primary();
-	        $table->string('name')->nullable();
-	        $table->bigInteger('owner_id')->nullable();
-            $table->string('avatar')->default(config('chatify.channel_avatar.default'));
+            $table->bigInteger('from_id');
+	        $table->string('to_channel_id')->nullable();
+            $table->string('body',5000)->nullable();
+            $table->string('attachment')->nullable();
+            $table->json('seen')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateChatifyChannelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ch_channels');
+        Schema::dropIfExists('ch_messages');
     }
 }

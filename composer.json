@@ -28,16 +28,16 @@
   },
   "autoload": {
     "psr-4": {
-      "Chatify\\": "src/"
+      "Chatsys\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Chatify\\ChatifyServiceProvider"
+        "Chatsys\\ChatsysServiceProvider"
       ],
       "aliases": {
-        "Chatify": "Chatify\\Facades\\ChatifyMessenger"
+        "Chatsys": "Chatsys\\Facades\\ChatsysMessenger"
       }
     }
   }

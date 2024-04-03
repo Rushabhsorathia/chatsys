@@ -1,6 +1,6 @@
 <?php
 
-namespace Chatify\Console;
+namespace Chatsys\Console;
 
 use Illuminate\Console\Command;
 
@@ -11,14 +11,14 @@ class PublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'chatify:publish {--force : Overwrite any existing files}';
+    protected $signature = 'Chatsys:publish {--force : Overwrite any existing files}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Publish all of the chatify assets';
+    protected $description = 'Publish all of the Chatsys assets';
 
     /**
      * Execute the console command.
@@ -29,28 +29,28 @@ class PublishCommand extends Command
     {
         if($this->option('force')){
             $this->call('vendor:publish', [
-                '--tag' => 'chatify-config',
+                '--tag' => 'Chatsys-config',
                 '--force' => true,
             ]);
 
             $this->call('vendor:publish', [
-                '--tag' => 'chatify-migrations',
+                '--tag' => 'Chatsys-migrations',
                 '--force' => true,
             ]);
 
             $this->call('vendor:publish', [
-                '--tag' => 'chatify-models',
+                '--tag' => 'Chatsys-models',
                 '--force' => true,
             ]);
         }
 
         $this->call('vendor:publish', [
-            '--tag' => 'chatify-views',
+            '--tag' => 'Chatsys-views',
             '--force' => true,
         ]);
 
         $this->call('vendor:publish', [
-            '--tag' => 'chatify-assets',
+            '--tag' => 'Chatsys-assets',
             '--force' => true,
         ]);
     }

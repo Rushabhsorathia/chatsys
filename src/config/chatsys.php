@@ -6,7 +6,7 @@ return [
     | Messenger display name
     |-------------------------------------
     */
-    'name' => env('CHATIFY_NAME', 'Chatify Messenger'),
+    'name' => env('CHATSYS_NAME', 'Chatsys Messenger'),
 
     /*
     |-------------------------------------
@@ -14,7 +14,7 @@ return [
     | files and derived images by default.
     |-------------------------------------
     */
-    'storage_disk_name' => env('CHATIFY_STORAGE_DISK', 'public'),
+    'storage_disk_name' => env('CHATSYS_STORAGE_DISK', 'public'),
 
     /*
     |-------------------------------------
@@ -22,14 +22,14 @@ return [
     |-------------------------------------
     */
     'routes' => [
-        'prefix' => env('CHATIFY_ROUTES_PREFIX', 'chatify'),
-        'middleware' => env('CHATIFY_ROUTES_MIDDLEWARE', ['web','auth']),
-        'namespace' => env('CHATIFY_ROUTES_NAMESPACE', 'Chatify\Http\Controllers'),
+        'prefix' => env('CHATSYS_ROUTES_PREFIX', 'Chatsys'),
+        'middleware' => env('CHATSYS_ROUTES_MIDDLEWARE', ['web','auth']),
+        'namespace' => env('CHATSYS_ROUTES_NAMESPACE', 'Chatsys\Http\Controllers'),
     ],
     'api_routes' => [
-        'prefix' => env('CHATIFY_API_ROUTES_PREFIX', 'chatify/api'),
-        'middleware' => env('CHATIFY_API_ROUTES_MIDDLEWARE', ['api']),
-        'namespace' => env('CHATIFY_API_ROUTES_NAMESPACE', 'Chatify\Http\Controllers\Api'),
+        'prefix' => env('CHATSYS_API_ROUTES_PREFIX', 'Chatsys/api'),
+        'middleware' => env('CHATSYS_API_ROUTES_MIDDLEWARE', ['api']),
+        'namespace' => env('CHATSYS_API_ROUTES_NAMESPACE', 'Chatsys\Http\Controllers\Api'),
     ],
 
     /*
@@ -96,7 +96,7 @@ return [
         'download_route_name' => 'attachments.download',
         'allowed_images' => (array) ['png','jpg','jpeg','gif'],
         'allowed_files' => (array) ['zip','rar','txt'],
-        'max_upload_size' => env('CHATIFY_MAX_FILE_SIZE', 150), // MB
+        'max_upload_size' => env('CHATSYS_MAX_FILE_SIZE', 150), // MB
     ],
 
     /*
@@ -127,7 +127,7 @@ return [
     */
     'sounds' => [
         'enabled' => true,
-        'public_path' => 'sounds/chatify',
+        'public_path' => 'sounds/Chatsys',
         'new_message' => 'new-message-sound.mp3',
     ]
 ];
